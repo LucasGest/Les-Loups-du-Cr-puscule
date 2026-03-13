@@ -1,0 +1,13 @@
+{
+  "name": "loups-crepuscule",
+  "version": "1.0.0",
+  "description": "Les Loups du Crépuscule — jeu multijoueur en ligne",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "socket.io": "^4.7.2"
+  }
+}
