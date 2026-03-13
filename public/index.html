@@ -1,693 +1,380 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="fr">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>🐺 Les Loups du Crépuscule</title>
-    <link
-      href="https://fonts.googleapis.com/css2?family=MedievalSharp&family=UnifrakturMaguntia&family=Cinzel:wght@400;600;700&family=Cinzel+Decorative:wght@700&family=IM+Fell+English:ital@0;1&display=swap"
-      rel="stylesheet" />
-    <link rel="stylesheet" href="style.css" />
-  </head>
-  <body>
-    <!-- AMBIENT -->
-    <div id="stars"></div>
-    <div id="moon"></div>
-    <div id="trees"></div>
-    <div id="fog"></div>
-    <div id="candles-layer"></div>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🐺 Les Loups du Crépuscule</title>
+<link href="https://fonts.googleapis.com/css2?family=MedievalSharp&family=UnifrakturMaguntia&family=Cinzel:wght@400;600;700&family=Cinzel+Decorative:wght@700&family=IM+Fell+English:ital@0;1&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
 
-    <!-- SVG DEFS pour ornements réutilisables -->
-    <svg width="0" height="0" style="position: absolute">
-      <defs>
-        <filter id="glow-gold">
-          <feGaussianBlur stdDeviation="3" result="blur" />
-          <feMerge>
-            <feMergeNode in="blur" />
-            <feMergeNode in="SourceGraphic" />
-          </feMerge>
-        </filter>
-        <pattern
-          id="stone-pattern"
-          x="0"
-          y="0"
-          width="40"
-          height="40"
-          patternUnits="userSpaceOnUse">
-          <rect width="40" height="40" fill="#0c0805" />
-          <rect
-            x="0"
-            y="0"
-            width="39"
-            height="19"
-            rx="1"
-            fill="#130e08"
-            stroke="#1a1208"
-            stroke-width="0.5" />
-          <rect
-            x="20"
-            y="20"
-            width="39"
-            height="19"
-            rx="1"
-            fill="#130e08"
-            stroke="#1a1208"
-            stroke-width="0.5" />
-          <rect
-            x="-20"
-            y="20"
-            width="39"
-            height="19"
-            rx="1"
-            fill="#130e08"
-            stroke="#1a1208"
-            stroke-width="0.5" />
-        </pattern>
-      </defs>
-    </svg>
+<!-- AMBIENT -->
+<div id="stars"></div>
+<div id="moon"></div>
+<div id="trees"></div>
+<div id="fog"></div>
+<div id="candles-layer"></div>
 
-    <!-- NAV -->
-    <nav id="nav">
-      <div id="nav-inner">
-        <div class="nav-logo" onclick="goHome()">
-          🐺 Les Loups du Crépuscule
-        </div>
-        <div class="nav-links">
-          <button class="nav-btn active" id="nav-home" onclick="goHome()">
-            Accueil
-          </button>
-          <button class="nav-btn" id="nav-salon" onclick="goSalon()">
-            Salons
-          </button>
-        </div>
-      </div>
-    </nav>
+<!-- SVG DEFS pour ornements réutilisables -->
+<svg width="0" height="0" style="position:absolute">
+  <defs>
+    <filter id="glow-gold">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <pattern id="stone-pattern" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">
+      <rect width="40" height="40" fill="#0c0805"/>
+      <rect x="0" y="0" width="39" height="19" rx="1" fill="#130e08" stroke="#1a1208" stroke-width="0.5"/>
+      <rect x="20" y="20" width="39" height="19" rx="1" fill="#130e08" stroke="#1a1208" stroke-width="0.5"/>
+      <rect x="-20" y="20" width="39" height="19" rx="1" fill="#130e08" stroke="#1a1208" stroke-width="0.5"/>
+    </pattern>
+  </defs>
+</svg>
 
-    <div id="app">
-      <!-- ═════════════════════════════════════
+<!-- NAV -->
+<nav id="nav">
+  <div id="nav-inner">
+    <div class="nav-logo" onclick="goHome()">🐺 Les Loups du Crépuscule</div>
+    <div class="nav-links">
+      <button class="nav-btn active" id="nav-home" onclick="goHome()">Accueil</button>
+      <button class="nav-btn" id="nav-salon" onclick="goSalon()">Salons</button>
+    </div>
+  </div>
+</nav>
+
+<div id="app">
+
+<!-- ═════════════════════════════════════
      ACCUEIL
 ═════════════════════════════════════ -->
-      <div id="s-home" class="screen active">
-        <div class="wrap">
-          <div class="hero-section">
-            <!-- Enluminure coin sup gauche -->
-            <svg
-              style="position: absolute; top: 10px; left: 10px; opacity: 0.3"
-              width="60"
-              height="60"
-              viewBox="0 0 60 60">
-              <path
-                d="M5,5 L25,5 L25,8 L8,8 L8,25 L5,25 Z"
-                fill="none"
-                stroke="#c9960c"
-                stroke-width="1.5" />
-              <circle cx="5" cy="5" r="2" fill="#c9960c" />
-              <path
-                d="M10,10 Q20,5 25,15"
-                fill="none"
-                stroke="#c9960c"
-                stroke-width=".8"
-                opacity=".6" />
-            </svg>
-            <!-- Enluminure coin sup droit -->
-            <svg
-              style="position: absolute; top: 10px; right: 10px; opacity: 0.3"
-              width="60"
-              height="60"
-              viewBox="0 0 60 60">
-              <path
-                d="M55,5 L35,5 L35,8 L52,8 L52,25 L55,25 Z"
-                fill="none"
-                stroke="#c9960c"
-                stroke-width="1.5" />
-              <circle cx="55" cy="5" r="2" fill="#c9960c" />
-              <path
-                d="M50,10 Q40,5 35,15"
-                fill="none"
-                stroke="#c9960c"
-                stroke-width=".8"
-                opacity=".6" />
-            </svg>
+<div id="s-home" class="screen active">
+  <div class="wrap">
+    <div class="hero-section">
+      <!-- Enluminure coin sup gauche -->
+      <svg style="position:absolute;top:10px;left:10px;opacity:.3" width="60" height="60" viewBox="0 0 60 60">
+        <path d="M5,5 L25,5 L25,8 L8,8 L8,25 L5,25 Z" fill="none" stroke="#c9960c" stroke-width="1.5"/>
+        <circle cx="5" cy="5" r="2" fill="#c9960c"/>
+        <path d="M10,10 Q20,5 25,15" fill="none" stroke="#c9960c" stroke-width=".8" opacity=".6"/>
+      </svg>
+      <!-- Enluminure coin sup droit -->
+      <svg style="position:absolute;top:10px;right:10px;opacity:.3" width="60" height="60" viewBox="0 0 60 60">
+        <path d="M55,5 L35,5 L35,8 L52,8 L52,25 L55,25 Z" fill="none" stroke="#c9960c" stroke-width="1.5"/>
+        <circle cx="55" cy="5" r="2" fill="#c9960c"/>
+        <path d="M50,10 Q40,5 35,15" fill="none" stroke="#c9960c" stroke-width=".8" opacity=".6"/>
+      </svg>
 
-            <span class="hero-wolf">🐺</span>
-            <h1 class="hero-title">Les Loups du Crépuscule</h1>
-            <p class="hero-subtitle">
-              ⚔ &nbsp; Jeu de déduction médiéval &nbsp; ⚔
-            </p>
+      <span class="hero-wolf">🐺</span>
+      <h1 class="hero-title">Les Loups du Crépuscule</h1>
+      <p class="hero-subtitle">⚔ &nbsp; Jeu de déduction médiéval &nbsp; ⚔</p>
 
-            <div class="heraldic-banner">
-              <div class="heraldic-line"></div>
-              <svg
-                width="30"
-                height="30"
-                viewBox="0 0 30 30"
-                style="flex-shrink: 0">
-                <path
-                  d="M15,2 L17,11 L26,11 L19,17 L22,26 L15,20 L8,26 L11,17 L4,11 L13,11 Z"
-                  fill="#c9960c"
-                  opacity=".7" />
-              </svg>
-              <div class="heraldic-line"></div>
-            </div>
-
-            <p class="hero-sub">
-              Dans le village maudit de Crépusville, chaque nuit des créatures
-              dévorent les habitants. Le jour, le village délibère pour les
-              chasser. Qui survivra à la pleine lune ?
-            </p>
-            <div class="hero-cta">
-              <button
-                class="btn btn-red"
-                style="width: auto"
-                onclick="goSalon()">
-                ⚔️ Créer une partie
-              </button>
-              <button
-                class="btn btn-gold"
-                style="width: auto"
-                onclick="
-                  goSalon();
-                  switchSalonTab('join');
-                ">
-                🚪 Rejoindre
-              </button>
-            </div>
-          </div>
-
-          <!-- TOUS LES RÔLES -->
-          <div class="roles-section">
-            <div class="section-title-wrap">
-              <div class="ornament-hr"><span>✦</span></div>
-              <h2 class="heading" style="font-size: 15px">
-                Grimoire des Rôles
-              </h2>
-              <div class="ornament-hr"><span>✦</span></div>
-            </div>
-
-            <!-- Filtres par camp -->
-            <div class="tabs" id="role-filter-tabs">
-              <button class="tab active" onclick="filterRoles('all', this)">
-                Tous
-              </button>
-              <button class="tab" onclick="filterRoles('Loups-Garous', this)">
-                🐺 Loups
-              </button>
-              <button class="tab" onclick="filterRoles('Villageois', this)">
-                🛡 Village
-              </button>
-              <button class="tab" onclick="filterRoles('Solitaires', this)">
-                👤 Solitaires
-              </button>
-              <button class="tab" onclick="filterRoles('Ambigus', this)">
-                🎭 Ambigus
-              </button>
-            </div>
-
-            <div id="roles-display"></div>
-          </div>
-        </div>
+      <div class="heraldic-banner">
+        <div class="heraldic-line"></div>
+        <svg width="30" height="30" viewBox="0 0 30 30" style="flex-shrink:0">
+          <path d="M15,2 L17,11 L26,11 L19,17 L22,26 L15,20 L8,26 L11,17 L4,11 L13,11 Z" fill="#c9960c" opacity=".7"/>
+        </svg>
+        <div class="heraldic-line"></div>
       </div>
 
-      <!-- ═════════════════════════════════════
+      <p class="hero-sub">Dans le village maudit de Crépusville, chaque nuit des créatures dévorent les habitants. Le jour, le village délibère pour les chasser. Qui survivra à la pleine lune ?</p>
+      <div class="hero-cta">
+        <button class="btn btn-red" style="width:auto" onclick="goSalon()">⚔️ Créer une partie</button>
+        <button class="btn btn-gold" style="width:auto" onclick="goSalon();switchSalonTab('join')">🚪 Rejoindre</button>
+      </div>
+    </div>
+
+    <!-- TOUS LES RÔLES -->
+    <div class="roles-section">
+      <div class="section-title-wrap">
+        <div class="ornament-hr"><span>✦</span></div>
+        <h2 class="heading" style="font-size:15px">Grimoire des Rôles</h2>
+        <div class="ornament-hr"><span>✦</span></div>
+      </div>
+
+      <!-- Filtres par camp -->
+      <div class="tabs" id="role-filter-tabs">
+        <button class="tab active" onclick="filterRoles('all',this)">Tous</button>
+        <button class="tab" onclick="filterRoles('Loups-Garous',this)">🐺 Loups</button>
+        <button class="tab" onclick="filterRoles('Villageois',this)">🛡 Village</button>
+        <button class="tab" onclick="filterRoles('Solitaires',this)">👤 Solitaires</button>
+        <button class="tab" onclick="filterRoles('Ambigus',this)">🎭 Ambigus</button>
+      </div>
+
+      <div id="roles-display"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═════════════════════════════════════
      SALONS
 ═════════════════════════════════════ -->
-      <div id="s-salon" class="screen">
-        <div class="wrap">
-          <h2 class="heading" style="font-size: 20px; margin-bottom: 20px">
-            🏰 Taverne des Aventuriers
-          </h2>
+<div id="s-salon" class="screen">
+  <div class="wrap">
+    <h2 class="heading" style="font-size:20px;margin-bottom:20px">🏰 Taverne des Aventuriers</h2>
 
-          <div class="tabs" id="salon-tabs">
-            <button
-              class="tab active"
-              id="tab-create"
-              onclick="switchSalonTab('create')">
-              ✚ Créer
-            </button>
-            <button class="tab" id="tab-join" onclick="switchSalonTab('join')">
-              🚪 Rejoindre
-            </button>
-            <button
-              class="tab"
-              id="tab-spectate"
-              onclick="switchSalonTab('spectate')">
-              👁 Spectateur
-            </button>
-            <button
-              class="tab"
-              id="tab-waiting"
-              onclick="switchSalonTab('waiting')"
-              style="display: none">
-              ⏳ Salle d'attente
-            </button>
-          </div>
+    <div class="tabs" id="salon-tabs">
+      <button class="tab active" id="tab-create" onclick="switchSalonTab('create')">✚ Créer</button>
+      <button class="tab" id="tab-join" onclick="switchSalonTab('join')">🚪 Rejoindre</button>
+      <button class="tab" id="tab-spectate" onclick="switchSalonTab('spectate')">👁 Spectateur</button>
+      <button class="tab" id="tab-waiting" onclick="switchSalonTab('waiting')" style="display:none">⏳ Salle d'attente</button>
+    </div>
 
-          <!-- CRÉER -->
-          <div id="salon-create" class="salon-pane">
-            <div id="create-form">
-              <div class="form-row">
-                <label class="label">Nom du salon</label>
-                <input
-                  id="salon-name-input"
-                  class="input"
-                  placeholder="Village maudit #1…"
-                  maxlength="30" />
-              </div>
-              <div class="form-row">
-                <label class="label">Nombre de joueurs</label>
-                <div class="player-count-btns">
-                  <div
-                    class="count-btn active"
-                    data-count="8"
-                    onclick="selectCount(8, this)">
-                    8 joueurs
-                  </div>
-                  <div
-                    class="count-btn"
-                    data-count="12"
-                    onclick="selectCount(12, this)">
-                    12 joueurs
-                  </div>
-                  <div
-                    class="count-btn"
-                    data-count="custom"
-                    onclick="selectCount('custom', this)">
-                    Personnalisé
-                  </div>
-                </div>
-                <div class="custom-count-wrap" id="custom-count-wrap">
-                  <input
-                    id="custom-count-input"
-                    class="input mt8"
-                    type="number"
-                    min="4"
-                    max="20"
-                    value="10"
-                    placeholder="Nombre de joueurs (4-20)" />
-                </div>
-              </div>
-              <div class="form-row">
-                <label class="label">Votre nom d'aventurier</label>
-                <input
-                  id="creator-name-input"
-                  class="input"
-                  placeholder="Votre pseudo…"
-                  maxlength="20" />
-              </div>
-              <button class="btn btn-red mt8" onclick="createSalonOnline()">
-                🏰 Créer la taverne →
-              </button>
-            </div>
-          </div>
-
-          <!-- REJOINDRE -->
-          <div id="salon-join" class="salon-pane hidden">
-            <div class="panel" style="margin-bottom: 14px">
-              <span class="label">Votre nom d'aventurier</span>
-              <input
-                id="join-name-input"
-                class="input"
-                placeholder="Votre pseudo…"
-                maxlength="20"
-                style="margin-bottom: 12px" />
-              <span class="label">Code du salon (4 lettres)</span>
-              <div class="flex-row">
-                <input
-                  id="join-code-input"
-                  class="input"
-                  placeholder="Ex: 7F3K"
-                  maxlength="4"
-                  style="
-                    text-transform: uppercase;
-                    letter-spacing: 3px;
-                    font-family: var(--font-heading);
-                  " />
-                <button
-                  class="btn btn-gold btn-sm"
-                  onclick="submitJoin()"
-                  style="white-space: nowrap">
-                  ⚔️ Rejoindre
-                </button>
-              </div>
-            </div>
-            <span class="label">Parties en attente</span>
-            <div id="salons-list">
-              <div
-                class="panel panel-sm"
-                style="
-                  text-align: center;
-                  color: var(--muted);
-                  font-style: italic;
-                  font-size: 13px;
-                ">
-                Chargement…
-              </div>
-            </div>
-          </div>
-
-          <!-- SPECTATEUR -->
-          <div id="salon-spectate" class="salon-pane hidden">
-            <div class="panel" style="text-align: center; padding: 26px">
-              <div style="font-size: 36px; margin-bottom: 12px">👁</div>
-              <div class="heading" style="font-size: 13px; margin-bottom: 8px">
-                Mode Spectateur
-              </div>
-              <p
-                style="
-                  color: var(--muted);
-                  font-size: 13px;
-                  line-height: 1.7;
-                  margin-bottom: 16px;
-                ">
-                Observez une partie en cours sans participer.
-              </p>
-              <span class="label">Votre nom</span>
-              <input
-                id="spectate-name-input"
-                class="input"
-                placeholder="Observateur…"
-                maxlength="20"
-                style="margin-bottom: 10px" />
-              <span class="label">Code de la partie</span>
-              <div class="flex-row" style="max-width: 300px; margin: 0 auto">
-                <input
-                  id="spectate-code-input"
-                  class="input"
-                  placeholder="Code 4 lettres…"
-                  maxlength="4"
-                  style="text-transform: uppercase" />
-                <button
-                  class="btn btn-ghost btn-sm"
-                  onclick="
-                    document.getElementById('join-code-input').value =
-                      document.getElementById('spectate-code-input').value;
-                    document.getElementById('join-name-input').value =
-                      document.getElementById('spectate-name-input').value;
-                    submitSpectate();
-                  "
-                  style="white-space: nowrap">
-                  Observer
-                </button>
-              </div>
-            </div>
-          </div>
-
-          <!-- SALLE D'ATTENTE -->
-          <div id="salon-waiting" class="salon-pane hidden"></div>
+    <!-- CRÉER -->
+    <div id="salon-create" class="salon-pane">
+      <div id="create-form">
+        <div class="form-row">
+          <label class="label">Nom du salon</label>
+          <input id="salon-name-input" class="input" placeholder="Village maudit #1…" maxlength="30">
         </div>
-        <!-- /wrap -->
+        <div class="form-row">
+          <label class="label">Nombre de joueurs</label>
+          <div class="player-count-btns">
+            <div class="count-btn active" data-count="8" onclick="selectCount(8,this)">8 joueurs</div>
+            <div class="count-btn" data-count="12" onclick="selectCount(12,this)">12 joueurs</div>
+            <div class="count-btn" data-count="custom" onclick="selectCount('custom',this)">Personnalisé</div>
+          </div>
+          <div class="custom-count-wrap" id="custom-count-wrap">
+            <input id="custom-count-input" class="input mt8" type="number" min="4" max="20" value="10" placeholder="Nombre de joueurs (4-20)">
+          </div>
+        </div>
+        <div class="form-row">
+          <label class="label">Votre nom d'aventurier</label>
+          <input id="creator-name-input" class="input" placeholder="Votre pseudo…" maxlength="20">
+        </div>
+        <button class="btn btn-red mt8" onclick="createSalonOnline()">🏰 Créer la taverne →</button>
       </div>
-      <!-- /s-salon -->
+    </div>
 
-      <!-- ═════════════════════════════════════
-     CONFIG RÔLES
-═════════════════════════════════════ -->
-      <div id="s-config" class="screen">
-        <div class="wrap">
-          <div class="config-header">
-            <button
-              class="btn btn-ghost btn-sm"
-              style="width: auto"
-              onclick="backToSalon()">
-              ← Retour
-            </button>
-            <h2 class="heading" style="font-size: 18px">
-              📜 Grimoire de Configuration
-            </h2>
-          </div>
-
-          <!-- Stats compteur -->
-          <div class="config-stats">
-            <div class="stat-box">
-              <span class="stat-num" id="stat-total">0</span
-              ><span class="stat-label">Total</span>
-            </div>
-            <div class="stat-box">
-              <span class="stat-num" id="stat-loups" style="color: var(--red)"
-                >0</span
-              ><span class="stat-label">Loups</span>
-            </div>
-            <div class="stat-box">
-              <span
-                class="stat-num"
-                id="stat-village"
-                style="color: var(--green)"
-                >0</span
-              ><span class="stat-label">Village</span>
-            </div>
-            <div class="stat-box">
-              <span class="stat-num" id="stat-target" style="color: var(--gold)"
-                >0</span
-              ><span class="stat-label">Objectif</span>
-            </div>
-          </div>
-
-          <!-- Indicateur d'équilibre -->
-          <div
-            id="balance-bar"
-            class="panel panel-sm"
-            style="
-              margin-bottom: 14px;
-              text-align: center;
-              font-size: 13px;
-              font-style: italic;
-              color: var(--muted);
-            ">
-            Sélectionnez vos rôles
-          </div>
-
-          <!-- Presets -->
-          <span class="label">Presets rapides</span>
-          <div class="preset-btns" id="preset-btns">
-            <button class="preset-btn" onclick="applyPreset('debutant')">
-              🌱 Débutant
-            </button>
-            <button class="preset-btn" onclick="applyPreset('classique')">
-              ⚔️ Classique
-            </button>
-            <button class="preset-btn" onclick="applyPreset('avance')">
-              🌑 Avancé
-            </button>
-            <button class="preset-btn" onclick="applyPreset('chaos')">
-              💀 Chaos
-            </button>
-            <button class="preset-btn" onclick="resetConfig()">
-              ↩ Réinitialiser
-            </button>
-          </div>
-
-          <!-- Rôles par camp -->
-          <div id="config-roles-container"></div>
-
-          <div style="position: sticky; bottom: 10px; padding: 10px 0">
-            <div
-              id="config-warning"
-              class="panel panel-sm"
-              style="
-                text-align: center;
-                margin-bottom: 8px;
-                display: none;
-                color: var(--red);
-                font-size: 13px;
-              "></div>
-            <button class="btn btn-red" id="launch-btn" onclick="launchGame()">
-              🚀 Lancer la partie
-            </button>
-          </div>
+    <!-- REJOINDRE -->
+    <div id="salon-join" class="salon-pane hidden">
+      <div class="panel" style="margin-bottom:14px">
+        <span class="label">Votre nom d'aventurier</span>
+        <input id="join-name-input" class="input" placeholder="Votre pseudo…" maxlength="20" style="margin-bottom:12px">
+        <span class="label">Code du salon (4 lettres)</span>
+        <div class="flex-row">
+          <input id="join-code-input" class="input" placeholder="Ex: 7F3K" maxlength="4" style="text-transform:uppercase;letter-spacing:3px;font-family:var(--font-heading)">
+          <button class="btn btn-gold btn-sm" onclick="submitJoin()" style="white-space:nowrap">⚔️ Rejoindre</button>
         </div>
       </div>
-
-      <!-- ═════════════════════════════════════
-     RÉVÉLATION
-═════════════════════════════════════ -->
-      <div id="s-reveal" class="screen">
-        <div class="reveal-wrap">
-          <p
-            style="color: var(--muted); font-size: 13px; margin-bottom: 4px"
-            id="reveal-label"></p>
-          <h2 class="heading" style="font-size: 18px; margin-bottom: 20px">
-            ✦ Votre Destin Secret ✦
-          </h2>
-
-          <div class="card3d">
-            <div class="card3d-inner" id="card3d-inner">
-              <div class="card-face card-front" onclick="flipCard()">
-                <div style="font-size: 52px">🃏</div>
-                <div
-                  class="cinzel"
-                  style="
-                    color: var(--gold);
-                    font-size: 13px;
-                    letter-spacing: 2px;
-                  ">
-                  Cliquez pour révéler
-                </div>
-                <div
-                  style="
-                    font-size: 11px;
-                    color: var(--muted);
-                    font-style: italic;
-                  ">
-                  Ne montrez pas à vos voisins
-                </div>
-              </div>
-              <div class="card-face" id="card-back-face"><!-- JS --></div>
-            </div>
-          </div>
-
-          <button
-            id="reveal-ok-btn"
-            class="btn btn-gold"
-            onclick="nextReveal()"
-            style="display: none; margin-top: 4px">
-            J'ai mémorisé mon rôle ✓
-          </button>
-        </div>
-      </div>
-
-      <!-- ═════════════════════════════════════
-     JEU
-═════════════════════════════════════ -->
-      <div id="s-game" class="screen">
-        <div id="game-topbar">
-          <div id="game-topbar-inner">
-            <div>
-              <span
-                class="deco"
-                style="font-size: 16px; font-family: var(--font-title)"
-                >🐺 Les Loups du Crépuscule</span
-              >
-              <div
-                style="font-size: 11px; color: var(--muted); margin-top: 1px">
-                Manche <span id="round-num">1</span> ·
-                <span id="salon-code-display"></span> ·
-                <span
-                  id="phase-countdown"
-                  style="font-family: &quot;Cinzel&quot;, serif"></span>
-              </div>
-            </div>
-            <div style="display: flex; align-items: center; gap: 10px">
-              <div id="phase-badge" class="night">🌙 NUIT</div>
-              <button
-                onclick="quitGame()"
-                style="
-                  padding: 6px 12px;
-                  background: rgba(120, 20, 10, 0.25);
-                  border: 1px solid rgba(180, 40, 20, 0.4);
-                  border-radius: 4px;
-                  color: var(--muted);
-                  font-family: &quot;Cinzel&quot;, serif;
-                  font-size: 10px;
-                  letter-spacing: 1px;
-                  cursor: pointer;
-                  transition: all 0.2s;
-                "
-                onmouseover="
-                  this.style.color = 'var(--text)';
-                  this.style.borderColor = 'rgba(180,40,20,.7)';
-                "
-                onmouseout="
-                  this.style.color = 'var(--muted)';
-                  this.style.borderColor = 'rgba(180,40,20,.4)';
-                ">
-                ✕ Quitter
-              </button>
-            </div>
-          </div>
-          <div id="switcher-bar"></div>
-        </div>
-
-        <div id="game-body">
-          <div id="game-left">
-            <div class="my-role-bar panel" id="my-role-bar">
-              <div class="my-role-icon" id="my-role-icon">❓</div>
-              <div>
-                <div class="my-role-name" id="my-role-name">—</div>
-                <div class="my-role-desc" id="my-role-desc">—</div>
-              </div>
-              <div
-                id="dead-badge"
-                class="hidden"
-                style="
-                  margin-left: auto;
-                  color: var(--red);
-                  font-family: &quot;Cinzel&quot;, serif;
-                  font-size: 11px;
-                ">
-                ÉLIMINÉ
-              </div>
-            </div>
-
-            <div id="instruction">…</div>
-            <div
-              id="phase-zone"
-              style="
-                margin: 12px 0;
-                border-radius: 8px;
-                background: var(--card);
-                border: 1px solid var(--border);
-              "></div>
-            <div id="players-grid"></div>
-            <div id="action-zone"></div>
-          </div>
-
-          <div id="game-right">
-            <span class="label">Chronique du village</span>
-            <div id="log-box" style="margin-bottom: 14px"></div>
-
-            <span class="label" id="chat-label">Place du village</span>
-            <div id="chat-box">
-              <div id="chat-msgs">
-                <div
-                  style="
-                    color: var(--muted);
-                    font-style: italic;
-                    font-size: 12px;
-                  ">
-                  Silence dans le village…
-                </div>
-              </div>
-              <div id="chat-row">
-                <input
-                  id="chat-in"
-                  class="input"
-                  placeholder="Parlez au village…"
-                  style="border-radius: 0" />
-                <button id="chat-send" onclick="sendChat()">➤</button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- ═════════════════════════════════════
-     FIN
-═════════════════════════════════════ -->
-      <div id="s-end" class="screen">
-        <div class="wrap-sm">
-          <span id="end-icon" class="end-icon">🎉</span>
-          <h2 id="end-title" class="deco end-title">—</h2>
-          <p id="end-sub" class="end-sub">—</p>
-          <div class="panel" style="margin-bottom: 18px">
-            <span class="label">Rôles dévoilés</span>
-            <div id="end-roles" class="end-roles"></div>
-          </div>
-          <button class="btn btn-red" onclick="goHome()">
-            🏠 Retour à l'accueil
-          </button>
-          <button class="btn btn-gold mt8" onclick="restartGame()">
-            🔄 Rejouer
-          </button>
+      <span class="label">Parties en attente</span>
+      <div id="salons-list">
+        <div class="panel panel-sm" style="text-align:center;color:var(--muted);font-style:italic;font-size:13px">
+          Chargement…
         </div>
       </div>
     </div>
-    <!-- /app -->
 
-    <!-- BOUTON THÈME -->
-    <button id="theme-toggle" onclick="toggleTheme()" title="Changer le thème">
-      🌙
-    </button>
+    <!-- SPECTATEUR -->
+    <div id="salon-spectate" class="salon-pane hidden">
+      <div class="panel" style="text-align:center;padding:26px">
+        <div style="font-size:36px;margin-bottom:12px">👁</div>
+        <div class="heading" style="font-size:13px;margin-bottom:8px">Mode Spectateur</div>
+        <p style="color:var(--muted);font-size:13px;line-height:1.7;margin-bottom:16px">
+          Observez une partie en cours sans participer.
+        </p>
+        <span class="label">Votre nom</span>
+        <input id="spectate-name-input" class="input" placeholder="Observateur…" maxlength="20" style="margin-bottom:10px">
+        <span class="label">Code de la partie</span>
+        <div class="flex-row" style="max-width:300px;margin:0 auto">
+          <input id="spectate-code-input" class="input" placeholder="Code 4 lettres…" maxlength="4" style="text-transform:uppercase">
+          <button class="btn btn-ghost btn-sm" onclick="document.getElementById('join-code-input').value=document.getElementById('spectate-code-input').value;document.getElementById('join-name-input').value=document.getElementById('spectate-name-input').value;submitSpectate()" style="white-space:nowrap">Observer</button>
+        </div>
+      </div>
+    </div>
 
-    <script src="game.js"></script>
-  </body>
+    <!-- SALLE D'ATTENTE -->
+    <div id="salon-waiting" class="salon-pane hidden"></div>
+    </div><!-- /wrap -->
+</div><!-- /s-salon -->
+
+<!-- ═════════════════════════════════════
+     CONFIG RÔLES
+═════════════════════════════════════ -->
+<div id="s-config" class="screen">
+  <div class="wrap">
+    <div class="config-header">
+      <button class="btn btn-ghost btn-sm" style="width:auto" onclick="backToSalon()">← Retour</button>
+      <h2 class="heading" style="font-size:18px">📜 Grimoire de Configuration</h2>
+    </div>
+
+    <!-- Stats compteur -->
+    <div class="config-stats">
+      <div class="stat-box"><span class="stat-num" id="stat-total">0</span><span class="stat-label">Total</span></div>
+      <div class="stat-box"><span class="stat-num" id="stat-loups" style="color:var(--red)">0</span><span class="stat-label">Loups</span></div>
+      <div class="stat-box"><span class="stat-num" id="stat-village" style="color:var(--green)">0</span><span class="stat-label">Village</span></div>
+      <div class="stat-box"><span class="stat-num" id="stat-target" style="color:var(--gold)">0</span><span class="stat-label">Objectif</span></div>
+    </div>
+
+    <!-- Indicateur d'équilibre -->
+    <div id="balance-bar" class="panel panel-sm" style="margin-bottom:14px;text-align:center;font-size:13px;font-style:italic;color:var(--muted)">
+      Sélectionnez vos rôles
+    </div>
+
+    <!-- Presets -->
+    <span class="label">Presets rapides</span>
+    <div class="preset-btns" id="preset-btns">
+      <button class="preset-btn" onclick="applyPreset('debutant')">🌱 Débutant</button>
+      <button class="preset-btn" onclick="applyPreset('classique')">⚔️ Classique</button>
+      <button class="preset-btn" onclick="applyPreset('avance')">🌑 Avancé</button>
+      <button class="preset-btn" onclick="applyPreset('chaos')">💀 Chaos</button>
+      <button class="preset-btn" onclick="resetConfig()">↩ Réinitialiser</button>
+    </div>
+
+    <!-- Rôles par camp -->
+    <div id="config-roles-container"></div>
+
+    <div style="position:sticky;bottom:10px;padding:10px 0">
+      <div id="config-warning" class="panel panel-sm" style="text-align:center;margin-bottom:8px;display:none;color:var(--red);font-size:13px"></div>
+      <button class="btn btn-red" id="launch-btn" onclick="launchGame()">🚀 Lancer la partie</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═════════════════════════════════════
+     RÉVÉLATION
+═════════════════════════════════════ -->
+<div id="s-reveal" class="screen">
+  <div class="reveal-wrap">
+    <p style="color:var(--muted);font-size:13px;margin-bottom:4px" id="reveal-label"></p>
+    <h2 class="heading" style="font-size:18px;margin-bottom:20px">✦ Votre Destin Secret ✦</h2>
+
+    <div class="card3d">
+      <div class="card3d-inner" id="card3d-inner">
+        <div class="card-face card-front" onclick="flipCard()">
+          <div style="font-size:52px">🃏</div>
+          <div class="cinzel" style="color:var(--gold);font-size:13px;letter-spacing:2px">Cliquez pour révéler</div>
+          <div style="font-size:11px;color:var(--muted);font-style:italic">Ne montrez pas à vos voisins</div>
+        </div>
+        <div class="card-face" id="card-back-face"><!-- JS --></div>
+      </div>
+    </div>
+
+    <button id="reveal-ok-btn" class="btn btn-gold" onclick="nextReveal()" style="display:none;margin-top:4px">J'ai mémorisé mon rôle ✓</button>
+  </div>
+</div>
+
+<!-- ═════════════════════════════════════
+     JEU
+═════════════════════════════════════ -->
+<div id="s-game" class="screen">
+
+  <!-- TOPBAR -->
+  <div id="game-topbar">
+    <div id="game-topbar-inner">
+      <div style="display:flex;align-items:center;gap:12px">
+        <span class="deco" style="font-size:15px;font-family:var(--font-title)">🐺 Les Loups du Crépuscule</span>
+        <span id="phase-badge" class="night">🌙 NUIT</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px">
+        <span style="font-size:11px;color:var(--muted)">Manche <span id="round-num">1</span> · <span id="salon-code-display"></span></span>
+        <button onclick="quitGame()" id="quit-btn">✕ Quitter</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- LAYOUT 3 COLONNES -->
+  <div id="game-body">
+
+    <!-- ── SIDEBAR GAUCHE : Timer + Action + Mon rôle ── -->
+    <div id="sidebar-left">
+
+      <!-- Mon rôle -->
+      <div class="panel" id="my-role-bar">
+        <div class="my-role-icon" id="my-role-icon">❓</div>
+        <div style="flex:1;min-width:0">
+          <div class="my-role-name" id="my-role-name">—</div>
+          <div class="my-role-desc" id="my-role-desc">—</div>
+        </div>
+        <div id="dead-badge" class="hidden">ÉLIMINÉ</div>
+      </div>
+
+      <!-- Timer -->
+      <div id="timer-box" class="panel">
+        <div id="timer-phase-label">Phase</div>
+        <div id="timer-display">—</div>
+        <div id="timer-bar-wrap"><div id="timer-bar"></div></div>
+      </div>
+
+      <!-- Bouton Vote (popup) -->
+      <div id="vote-section">
+        <button id="vote-open-btn" onclick="openVotePopup()" class="btn btn-red" style="width:100%;display:none">
+          ⚖️ Voter
+        </button>
+      </div>
+
+      <!-- Zone d'action nuit -->
+      <div id="phase-zone"></div>
+
+      <!-- Instruction -->
+      <div id="instruction">…</div>
+
+    </div>
+
+    <!-- ── CENTRE : Chat ── -->
+    <div id="game-center">
+      <div id="chat-header">
+        <span class="label" id="chat-label" style="margin:0">💬 Place du village</span>
+        <span id="chat-night-indicator" style="font-size:11px;color:var(--muted);font-style:italic;display:none">🌙 Silence la nuit</span>
+      </div>
+      <div id="chat-msgs"></div>
+      <div id="chat-row">
+        <input id="chat-in" class="input" placeholder="Parlez au village…">
+        <button id="chat-send" onclick="sendChat()">➤</button>
+      </div>
+    </div>
+
+    <!-- ── SIDEBAR DROITE : Joueurs + Log ── -->
+    <div id="sidebar-right">
+
+      <!-- Liste joueurs -->
+      <div class="panel" style="margin-bottom:10px">
+        <span class="label">👥 Joueurs</span>
+        <div id="players-grid"></div>
+      </div>
+
+      <!-- Chronique -->
+      <div class="panel">
+        <span class="label">📜 Chronique</span>
+        <div id="log-box"></div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- POPUP VOTE -->
+  <div id="vote-popup-overlay" onclick="closeVotePopup()" style="display:none"></div>
+  <div id="vote-popup" style="display:none">
+    <div id="vote-popup-header">
+      <span style="font-family:var(--font-heading);font-size:14px;color:var(--gold)">⚖️ Voter pour éliminer</span>
+      <button onclick="closeVotePopup()" style="background:none;border:none;color:var(--muted);cursor:pointer;font-size:18px">✕</button>
+    </div>
+    <div id="vote-popup-body"></div>
+  </div>
+
+</div>
+
+<!-- ═════════════════════════════════════
+     FIN
+═════════════════════════════════════ -->
+<div id="s-end" class="screen">
+  <div class="wrap-sm">
+    <span id="end-icon" class="end-icon">🎉</span>
+    <h2 id="end-title" class="deco end-title">—</h2>
+    <p id="end-sub" class="end-sub">—</p>
+    <div class="panel" style="margin-bottom:18px">
+      <span class="label">Rôles dévoilés</span>
+      <div id="end-roles" class="end-roles"></div>
+    </div>
+    <button class="btn btn-red" onclick="goHome()">🏠 Retour à l'accueil</button>
+    <button class="btn btn-gold mt8" onclick="restartGame()">🔄 Rejouer</button>
+  </div>
+</div>
+
+</div><!-- /app -->
+
+<!-- BOUTON THÈME -->
+<button id="theme-toggle" onclick="toggleTheme()" title="Changer le thème">🌙</button>
+
+<script src="game.js"></script>
+</body>
 </html>
